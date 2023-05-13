@@ -1,4 +1,5 @@
 const yargs = require('yargs');
+const fs = require('fs');
 const date = new Date();
 const dateUTC = date.toUTCString();
 
@@ -20,4 +21,9 @@ const argv = yargs
 const port = argv.port
 const name = argv.name
 
-console.log(`Date: ${dateUTC} | TCP Port: ${port} | Server owner: ${name}`)
+const logsFile = 'zad1.log';
+const logsContent = `Date: ${dateUTC} | TCP Port: ${port} | Server owner: ${name}\n`;
+
+fs.writeFile(logsFile, logsContent, (err) => {
+  if (err) throw err;
+});
