@@ -42,6 +42,8 @@ COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /home/node/app/build /usr/share/nginx/html
 COPY --from=builder /home/node/app/zad1.log /var/log/zad1.log
 
+RUN sed -i "s/listen 80;/listen $PORT;/g" /etc/nginx/conf.d/default.conf
+
 EXPOSE $PORT
 
 HEALTHCHECK --interval=4s --timeout=20s --start-period=2s --retries=3 \
