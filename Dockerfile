@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1.4
 FROM scratch as builder
 ADD alpine-minirootfs-3.18.0-x86_64.tar.gz /
 
@@ -17,13 +18,14 @@ USER node
 WORKDIR /home/node/app
 
 # Add args
-COPY --chown=node:node log ./log
-COPY --chown=node:node src ./src
-COPY --chown=node:node public ./public
-COPY --chown=node:node ./package*.json .
-
+# Install node dependencies
+COPY --link --chown=node:node ./package*.json .
 RUN npm install
 
+# Create an optimized production build
+COPY --link --chown=node:node log ./log
+COPY --link --chown=node:node src ./src
+COPY --link --chown=node:node public ./public
 RUN npm run build --port=${PORT:-80} --name="${NAME:-'Viktor Vodnev'}"
 
 
@@ -38,9 +40,9 @@ ENV PORT=$PORT
 # ???
 RUN apk add --update --no-cache curl
 
-COPY ./nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=builder /home/node/app/build /usr/share/nginx/html
-COPY --from=builder /home/node/app/zad1.log /var/log/zad1.log
+COPY --link ./nginx.conf /etc/nginx/conf.d/default.conf
+COPY --link --from=builder /home/node/app/build /usr/share/nginx/html
+COPY --link --from=builder /home/node/app/zad1.log /var/log/zad1.log
 
 RUN sed -i "s/listen 80;/listen $PORT;/g" /etc/nginx/conf.d/default.conf
 
