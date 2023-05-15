@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile:1.4
+# syntax=docker/dockerfile:1
 FROM scratch as builder
 ADD alpine-minirootfs-3.18.0-x86_64.tar.gz /
 
@@ -19,13 +19,13 @@ WORKDIR /home/node/app
 
 # Add args
 # Install node dependencies
-COPY --link --chown=node:node ./package*.json .
+COPY --chown=node:node ./package*.json .
 RUN npm install
 
 # Create an optimized production build
-COPY --link --chown=node:node log ./log
-COPY --link --chown=node:node src ./src
-COPY --link --chown=node:node public ./public
+COPY --chown=node:node log ./log
+COPY --chown=node:node src ./src
+COPY --chown=node:node public ./public
 RUN npm run build --port=${PORT:-80} --name="${NAME:-'Viktor Vodnev'}"
 
 
