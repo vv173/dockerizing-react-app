@@ -4,28 +4,33 @@ ADD alpine-minirootfs-3.18.0-x86_64.tar.gz /
 
 ARG PORT
 ARG NAME
+ARG ID=3333
 
 RUN apk update && \
     apk upgrade && \
     apk add --no-cache nodejs=18.16.0-r1 \
-    npm=9.6.6-r0 && \
+    npm=9.6.6-r0 \
+    openssh-client \
+    git && \
     rm -rf /etc/apk/cache
 
-RUN addgroup -S node && \
-    adduser -S node -G node
+RUN addgroup --gid $ID -S node && \
+    adduser --uid $ID -S node -G node
 
 USER node
+
+RUN mkdir -p -m 0700 ~/.ssh && \
+    ssh-keyscan github.com >> ~/.ssh/known_hosts
+
 WORKDIR /home/node/app
+
+RUN --mount=type=ssh,uid=$ID,gid=$ID git clone git@github.com:vv173/dockerizing-react-app.git .
 
 # Add args
 # Install node dependencies
-COPY --chown=node:node ./package*.json .
 RUN npm install
 
 # Create an optimized production build
-COPY --chown=node:node log ./log
-COPY --chown=node:node src ./src
-COPY --chown=node:node public ./public
 RUN npm run build --port=${PORT:-80} --name="${NAME:-'Viktor Vodnev'}"
 
 
@@ -40,7 +45,7 @@ ENV PORT=$PORT
 # ???
 RUN apk add --update --no-cache curl
 
-COPY --link ./nginx.conf /etc/nginx/conf.d/default.conf
+COPY --link --from=builder /home/node/app/nginx.conf /etc/nginx/conf.d/default.conf
 COPY --link --from=builder /home/node/app/build /usr/share/nginx/html
 COPY --link --from=builder /home/node/app/zad1.log /var/log/zad1.log
 
