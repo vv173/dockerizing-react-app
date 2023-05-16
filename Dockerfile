@@ -29,7 +29,8 @@ RUN --mount=type=ssh,uid=$USER_ID,gid=$USER_ID git clone git@github.com:vv173/do
 
 # Add args
 # Install node dependencies
-RUN npm install
+# Explain in the comments why `npm ci` is better then npm install
+RUN npm ci
 
 # Create an optimized production build
 RUN npm run build --port=${PORT:-80} --name="${NAME:-'Viktor Vodnev'}"
@@ -51,6 +52,7 @@ LABEL "org.opencontainers.image.documentation"="https://github.com/vv173/dockeri
 LABEL "org.opencontainers.image.title"="Zadanie 1"
 
 ENV PORT=$PORT
+ENV NODE_ENV=production
 
 # ???
 RUN apk add --update --no-cache curl

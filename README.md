@@ -14,3 +14,9 @@ buildctl build \
     --opt build-arg:PORT=8080 \
     --opt build-arg:DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 ```
+
+## Inspect labels
+
+```
+docker image inspect --format='{{json .Config.Labels}} docker.io/v17v3/zad1' 
+```
