@@ -25,12 +25,14 @@ RUN mkdir -p -m 0700 ~/.ssh && \
 
 WORKDIR /home/node/app
 
-RUN --mount=type=ssh,uid=$USER_ID,gid=$USER_ID git clone git@github.com:vv173/dockerizing-react-app.git .
+RUN --mount=type=ssh,uid=$USER_ID,gid=$USER_ID \
+    git clone git@github.com:vv173/dockerizing-react-app.git .
 
 # Add args
 # Install node dependencies
 # Explain in the comments why `npm ci` is better then npm install
-RUN npm ci --omit=dev
+RUN --mount=id=npm-cache,type=cache,sharing=locked,target=/home/node/.npm,uid=$USER_ID,gid=$USER_ID \
+    npm ci --omit=dev
 
 # Create an optimized production build
 RUN npm run build --port=${PORT:-80} --name="${NAME:-'Viktor Vodnev'}"
