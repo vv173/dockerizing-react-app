@@ -15,6 +15,18 @@ buildctl build \
     --opt build-arg:DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 ```
 
+```
+docker build buildx \
+    --cache-from type=registry,ref=docker.io/v17v3/zad1-cache \
+    --cache-to type=registry,ref=docker.io/v17v3/zad1-cache \
+    --ssh default=$SSH_AUTH_SOCK \
+    --build-arg USER_ID=7777 \
+    --build-arg NAME='User Name' \
+    --build-arg PORT=8080 \
+    --build-arg DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+    --tag docker.io/v17v3/zad1 .
+```
+
 ## Inspect labels
 
 ```

@@ -30,7 +30,7 @@ RUN --mount=type=ssh,uid=$USER_ID,gid=$USER_ID git clone git@github.com:vv173/do
 # Add args
 # Install node dependencies
 # Explain in the comments why `npm ci` is better then npm install
-RUN npm ci
+RUN npm ci --omit=dev
 
 # Create an optimized production build
 RUN npm run build --port=${PORT:-80} --name="${NAME:-'Viktor Vodnev'}"
@@ -55,7 +55,10 @@ ENV PORT=$PORT
 ENV NODE_ENV=production
 
 # ???
-RUN apk add --update --no-cache curl
+RUN apk add --update --force-overwrite --no-cache curl \
+    openssl=3.0.8-r4 \
+    libssl3=3.0.8-r4 \
+    libcrypto3=3.0.8-r4
 
 COPY --link --from=builder /home/node/app/nginx.conf /etc/nginx/conf.d/default.conf
 COPY --link --from=builder /home/node/app/build /usr/share/nginx/html
