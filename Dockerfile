@@ -57,7 +57,8 @@ ENV PORT=$PORT
 ENV NODE_ENV=production
 
 # ???
-RUN apk add --update --force-overwrite --no-cache curl \
+RUN apk add --update --force-overwrite --no-cache \
+    curl=8.1.0-r0 \
     openssl=3.0.8-r4 \
     libssl3=3.0.8-r4 \
     libcrypto3=3.0.8-r4
