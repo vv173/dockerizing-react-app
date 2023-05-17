@@ -1,7 +1,8 @@
 # syntax=docker/dockerfile:1
 FROM scratch as builder
 
-ADD alpine-minirootfs-3.18.0-x86_64.tar.gz /
+ARG BUILDARCH
+ADD ./build_os/alpine-minirootfs-3.18.0-${BUILDARCH}.tar.gz /
 
 ARG PORT
 ARG NAME
