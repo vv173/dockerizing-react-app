@@ -31,6 +31,17 @@ docker buildx build \
     --tag docker.io/v17v3/zad1 .
 ```
 
+## Create builder:
+
+```
+docker buildx create \
+    --name zad1-builder \
+    --bootstrap \
+    --driver docker-container \
+    --use \
+    --platform linux/arm/v7,linux/arm64/v8,linux/amd64
+```
+
 ## Inspect labels
 
 ```
