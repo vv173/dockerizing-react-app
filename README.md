@@ -17,14 +17,17 @@ buildctl build \
 ```
 
 ```
-docker build buildx \
+docker buildx build \
     --cache-from type=registry,ref=docker.io/v17v3/zad1-cache \
     --cache-to type=registry,ref=docker.io/v17v3/zad1-cache \
+    --output=type=registry \
     --ssh default=$SSH_AUTH_SOCK \
+    --platform=linux/arm/v7,linux/arm64/v8,linux/amd64 \
     --build-arg USER_ID=7777 \
     --build-arg NAME='User Name' \
     --build-arg PORT=8080 \
-    --build-arg DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+    --build-arg DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
+    --progress=tty \
     --tag docker.io/v17v3/zad1 .
 ```
 
