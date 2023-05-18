@@ -5,8 +5,8 @@
 FROM scratch as builder
 
 # Docker na podstawie architektury hosta pobiera obraz alpine o tej samej architekturze
-# BUILDARCH jestczęścią zestawu automatycznie zdefiniowanych argumentów kompilacji,
-# których można użyć. Zawsze zawiera w sobie architekturę bieżącego systemu.
+# BUILDARCH jest częścią zestawu automatycznie zdefiniowanych argumentów kompilacji.
+# Zawsze zawiera w sobie architekturę bieżącego systemu.
 ARG BUILDARCH
 ADD ./build_os/alpine-minirootfs-3.18.0-${BUILDARCH}.tar.gz /
 # Argumenty PORT oraz NAME potrzebne są do generacji logów.
