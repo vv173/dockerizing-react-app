@@ -5,7 +5,7 @@ buildctl build \
     --frontend=dockerfile.v0 \
     --local context=. \
     --local dockerfile=. \
-    --output type=image,name=docker.io/v17v3/zad1,push=true \
+    --output type=image,\"name=zad1registry.azurecr.io/zad1,docker.io/v17v3/zad1\",push=true \
     --ssh default=$SSH_AUTH_SOCK \
     --export-cache type=registry,mode=max,ref=docker.io/v17v3/zad1-cache \
     --import-cache type=registry,ref=docker.io/v17v3/zad1-cache \
@@ -28,7 +28,14 @@ docker buildx build \
     --build-arg PORT=8080 \
     --build-arg DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
     --progress=tty \
-    --tag docker.io/v17v3/zad1 .
+    --tag docker.io/v17v3/zad1
+    --tag zad1registry.azurecr.io/zad1 .
+```
+
+## Check remote build instance:
+
+```
+docker -H ssh://azureuser@zad1-builder.northeurope.cloudapp.azure.com info
 ```
 
 ## Create builder:
@@ -36,10 +43,25 @@ docker buildx build \
 ```
 docker buildx create \
     --name zad1-builder \
-    --bootstrap \
     --driver docker-container \
-    --use \
+    --platform linux/arm/v7,linux/arm64/v8,linux/amd64 \
+    --use ssh://azureuser@zad1-builder.northeurope.cloudapp.azure.com
+```
+
+## Append builder:
+
+```
+docker buildx create \
+    --name zad1-builder \
+    --append \
+    --driver docker-container \
     --platform linux/arm/v7,linux/arm64/v8,linux/amd64
+```
+
+## Inspect builder
+
+```
+docker buildx inspect --bootstrap --builder zad1-builder
 ```
 
 ## Inspect labels
