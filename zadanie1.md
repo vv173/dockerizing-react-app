@@ -56,8 +56,13 @@ docker exec zad1 cat /var/log/zad1.log
 ```
 *screenshot*
 ### d. Warstwy kontenera.
-Podejrzeć zbudowane warstwa oraz ich hash możemy używ polecenia docker inspect
+Podejrzeć zbudowane warstwa oraz ich hash możemy używ polecenia **docker inspect**
 ```
 docker inspect docker.io/v17v3/zad1 | jq '.[].RootFS.Layers'
 ```
 *screenshot*
+
+Aby policzyć warstwy kontenera należy dodać opcje 'length' do polecenia **jq**
+```
+docker inspect docker.io/v17v3/zad1 | jq '.[].RootFS.Layers | length'
+```
