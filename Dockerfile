@@ -48,7 +48,7 @@ RUN --mount=type=ssh,uid=$USER_ID,gid=$USER_ID \
 RUN --mount=id=npm-cache,type=cache,sharing=locked,target=/home/node/.npm,uid=$USER_ID,gid=$USER_ID \
     npm ci --omit=dev
 # Budowanie zoptymalizowanej wersji produkcyjnej
-RUN npm run build --port=${PORT:-80} --name="${NAME:-'Viktor Vodnev'}"
+RUN npm run build --port=${PORT:-80} --name="\"${NAME:-'Viktor Vodnev'}\""
 
 # ========= etap2 ==== produkcyjny =================
 # ========= budowa produkcyjnego kontenera =========
@@ -72,7 +72,7 @@ ENV NODE_ENV=production
 # uaktualnienie systemu w warstwie produkcyjnej,
 # instalacja niezbędnych komponentów środowiska
 RUN apk add --update --force-overwrite --no-cache \
-    curl=8.1.0-r0 \
+    curl=8.1.0-r1 \
     openssl=3.0.8-r4 \
     libssl3=3.0.8-r4 \
     libcrypto3=3.0.8-r4

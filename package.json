@@ -17,7 +17,7 @@
     "yargs": "^17.7.2"
   },
   "scripts": {
-    "start": "concurrently \"node log/logs.js --port=$npm_config_port --name=$npm_config_name\" \"react-scripts start\"",
+    "start": "concurrently \"node log/logs.js --port=$npm_config_port --name=\"$npm_config_name\" \"react-scripts start\"",
     "build": "concurrently \"node log/logs.js --port=$npm_config_port --name=$npm_config_name\" \"react-scripts build\"",
     "eject": "react-scripts eject"
   },

@@ -1,0 +1,45 @@
+# Sprawozdanie z zadania 1
+
+## CZĘŚĆ OBOWIĄZKOWA
+<br/><br/>
+### a. Zbudowanie kontenera
+<br/><br/>
+Budowanie odbywa się za pomocą silnika buildkit. Przed budowanie należy uruchomić kontejner buildkit oraz dodać zmienną środowiskowym z ścieżką do kontenera buildkit.   
+```
+docker run -d --name buildkitd --restart always --privileged moby/buildkit:latest
+export BUILDKIT_HOST=docker-container://buildkitd
+```
+<br/><br/>
+Budowanie kontenera przy użyciu buildctl.
+```
+buildctl build \
+    --frontend=dockerfile.v0 \
+    --local context=. \
+    --local dockerfile=. \
+    --output type=image,\"name=zad1registry.azurecr.io/zad1,docker.io/v17v3/zad1\",push=true \
+    --ssh default=$SSH_AUTH_SOCK \
+    --export-cache type=registry,mode=max,ref=docker.io/v17v3/zad1-cache \
+    --import-cache type=registry,ref=docker.io/v17v3/zad1-cache \
+    --opt build-arg:USER_ID=7777 \
+    --opt build-arg:NAME='Viktor Vodnev' \
+    --opt build-arg:PORT=8080 \
+    --opt build-arg:DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
+    --opt platform=linux/arm/v7,linux/arm64/v8,linux/amd64
+```
+<br/><br/>
+Budowanie kontenera przy użyciu docker buildx.
+```
+docker buildx build \
+    --cache-from type=registry,ref=docker.io/v17v3/zad1-cache \
+    --cache-to type=registry,ref=docker.io/v17v3/zad1-cache \
+    --output=type=registry \
+    --ssh default=$SSH_AUTH_SOCK \
+    --platform=linux/arm/v7,linux/arm64/v8,linux/amd64 \
+    --build-arg USER_ID=7777 \
+    --build-arg NAME='User Name' \
+    --build-arg PORT=8080 \
+    --build-arg DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
+    --progress=tty \
+    --tag docker.io/v17v3/zad1
+    --tag zad1registry.azurecr.io/zad1 .
+```
