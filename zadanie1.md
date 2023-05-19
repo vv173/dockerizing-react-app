@@ -4,7 +4,7 @@
 <br/><br/>
 ### a. Zbudowanie kontenera
 <br/><br/>
-Budowanie odbywa się za pomocą silnika buildkit. Przed budowanie należy uruchomić kontejner buildkit oraz dodać zmienną środowiskowym z ścieżką do kontenera buildkit.   
+Budowanie odbywa się za pomocą silnika buildkit. Przed budowaniem należy uruchomić kontener buildkit oraz dodać zmienną środowiskową zawierającą scieżkę do kontenera buildkit.   
 ```
 docker run -d --name buildkitd --restart always --privileged moby/buildkit:latest
 export BUILDKIT_HOST=docker-container://buildkitd
@@ -44,19 +44,20 @@ docker buildx build \
     --tag zad1registry.azurecr.io/zad1 .
 ```
 <br/><br/>
-### b) Uruchomienie kontenera.
+### b. Uruchomienie kontenera.
 ```
-docker run --rm --name zad1 -dt -p 8080:8080 docker.io/v17v3/zad1
+docker run --name zad1 -dt -p 8080:8080 docker.io/v17v3/zad1
 ```
 <br/><br/>
-### c) Uzyskanie logów wygenerowanych przez aplikacje.
+### c. Uzyskanie logów wygenerowanych przez aplikacje.
 Plik wygenerowany przez aplikacje znajduje się w katalogie /var/log o nazwie zad1.log.
 ```
 docker exec zad1 cat /var/log/zad1.log
 ```
 *screenshot*
-### d) Warstwy kontenera.
+### d. Warstwy kontenera.
 Podejrzeć zbudowane warstwa oraz ich hash możemy używ polecenia docker inspect
 ```
 docker inspect docker.io/v17v3/zad1 | jq '.[].RootFS.Layers'
 ```
+*screenshot*
