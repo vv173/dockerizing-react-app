@@ -43,3 +43,20 @@ docker buildx build \
     --tag docker.io/v17v3/zad1
     --tag zad1registry.azurecr.io/zad1 .
 ```
+<br/><br/>
+### b) Uruchomienie kontenera.
+```
+docker run --rm --name zad1 -dt -p 8080:8080 docker.io/v17v3/zad1
+```
+<br/><br/>
+### c) Uzyskanie logów wygenerowanych przez aplikacje.
+Plik wygenerowany przez aplikacje znajduje się w katalogie /var/log o nazwie zad1.log.
+```
+docker exec zad1 cat /var/log/zad1.log
+```
+*screenshot*
+### d) Warstwy kontenera.
+Podejrzeć zbudowane warstwa oraz ich hash możemy używ polecenia docker inspect
+```
+docker inspect docker.io/v17v3/zad1 | jq '.[].RootFS.Layers'
+```
