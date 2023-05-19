@@ -3,7 +3,6 @@
 ## CZĘŚĆ OBOWIĄZKOWA
 <br/><br/>
 ### a. Zbudowanie kontenera
-<br/><br/>
 Budowanie odbywa się za pomocą silnika buildkit. Przed budowaniem należy uruchomić kontener buildkit oraz dodać zmienną środowiskową zawierającą scieżkę do kontenera buildkit.   
 ```
 docker run -d --name buildkitd --restart always --privileged moby/buildkit:latest
@@ -43,12 +42,10 @@ docker buildx build \
     --tag docker.io/v17v3/zad1
     --tag zad1registry.azurecr.io/zad1 .
 ```
-<br/><br/>
 ### b. Uruchomienie kontenera.
 ```
 docker run --name zad1 -dt -p 8080:8080 docker.io/v17v3/zad1
 ```
-<br/><br/>
 ### c. Uzyskanie logów wygenerowanych przez aplikacje.
 Plik wygenerowany przez aplikacje znajduje się w katalogie /var/log o nazwie zad1.log.
 ```
