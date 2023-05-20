@@ -19,6 +19,7 @@ buildctl build \
     --frontend=dockerfile.v0 \
     --local context=. \
     --local dockerfile=. \
+    --ssh default=$SSH_AUTH_SOCK
     --output type=image,\"name=zad1registry.azurecr.io/zad1,docker.io/v17v3/zad1\",push=true \
     --export-cache type=registry,mode=max,ref=docker.io/v17v3/zad1-cache \
     --import-cache type=registry,ref=docker.io/v17v3/zad1-cache \
@@ -32,16 +33,17 @@ buildctl build \
 Budowanie kontenera przy użyciu docker buildx.
 ```
 docker buildx build \
+    --ssh default=$SSH_AUTH_SOCK \
     --cache-from type=registry,ref=docker.io/v17v3/zad1-cache \
     --cache-to type=registry,ref=docker.io/v17v3/zad1-cache \
     --output=type=registry \
     --platform=linux/arm/v7,linux/arm64/v8,linux/amd64 \
     --build-arg USER_ID=7777 \
-    --build-arg NAME='User Name' \
+    --build-arg NAME='Viktor Vodnev' \
     --build-arg PORT=8080 \
     --build-arg DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
     --progress=tty \
-    --tag docker.io/v17v3/zad1
+    --tag docker.io/v17v3/zad1 \
     --tag zad1registry.azurecr.io/zad1 .
 ```
 ### b. Uruchomienie kontenera.
