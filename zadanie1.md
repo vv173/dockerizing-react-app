@@ -53,21 +53,27 @@ Plik wygenerowany przez aplikacje znajduje się w katalogie /var/log o nazwie za
 ```
 docker exec zad1 cat /var/log/zad1.log
 ```
-*screenshot*
+![](./screenshots/logs.png)
 ### d. Warstwy kontenera.
 Podejrzeć zbudowane warstwa oraz ich hash możemy używ polecenia **docker inspect**
 ```
 docker inspect docker.io/v17v3/zad1 | jq '.[].RootFS.Layers'
 ```
-*screenshot*
+![](./screenshots/layers.png)
 
 Aby policzyć warstwy kontenera należy dodać opcje 'length' do polecenia **jq**
 ```
 docker inspect docker.io/v17v3/zad1 | jq '.[].RootFS.Layers | length'
 ```
+Dodatkowo utworzone warstwy kontenera możemy sprawdzić w aplikacji Dive.
+![](./screenshots/dive.png)
+
 
 ## Skanowanie obrazu kontenera za pomocą narzędzia Docker Scount.
 
-*screenshot*
+![](./screenshots/scout.png)
 
 Dodatkowo raporty w formacie plików tekstowych json zostali umieszczone w folderze scout_reports.
+
+## Skanowanie obrazu kontenera za pomocą narzędzia Snyk.
+![](./screenshots/snyk.png)

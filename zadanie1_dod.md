@@ -29,7 +29,7 @@ docker buildx inspect --bootstrap --builder zad1-builder
 ```
 docker manifest inspect docker.io/v17v3/zad1
 ```
-*screenshot*
+![](./screenshots/manifest.png)
 
 Pobieranie kodu bezpośrednio z github wewnątrz kontenera jest rozwiązane poprzez użycie RUN --mount=type=ssh w Dockerfile, ta opcja umożliwia dostęp do kluczy SSH za pośrednictwem agentów SSH. Dlatego warto upewnić się, że ssh agent jest uruchomiony.
 
