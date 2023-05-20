@@ -63,3 +63,9 @@ Aby policzyć warstwy kontenera należy dodać opcje 'length' do polecenia **jq*
 ```
 docker inspect docker.io/v17v3/zad1 | jq '.[].RootFS.Layers | length'
 ```
+
+## Skanowanie obrazu kontenera za pomocą narzędzia Docker Scount.
+
+*screenshot*
+
+Dodatkowo raporty w formacie plików tekstowych json zostali umieszczone w folderze scout_reports.
