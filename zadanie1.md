@@ -12,6 +12,11 @@ Oprócz tego kontener wymaga agenta ssh, więc przed budowaniem należy upewnić
 ```
 eval $(ssh-agent)
 ```
+Poza tym należy pamiętać, że agent ssh powinien zawierać w sobie klucz do github. Sprawdzić czy klucz został dodany, można używając polecenia:
+```
+ssh-add -L
+```
+Pod czas budowanie cache obrazu jest osobno exportowany do docker hub. Obraz kontenera jest przekazywany do dwóch registry, pierwsze w dockerhub, drugie w azure.
 <br/><br/>
 Budowanie kontenera przy użyciu buildctl.
 ```
@@ -19,7 +24,7 @@ buildctl build \
     --frontend=dockerfile.v0 \
     --local context=. \
     --local dockerfile=. \
-    --ssh default=$SSH_AUTH_SOCK
+    --ssh default=$SSH_AUTH_SOCK \
     --output type=image,\"name=zad1registry.azurecr.io/zad1,docker.io/v17v3/zad1\",push=true \
     --export-cache type=registry,mode=max,ref=docker.io/v17v3/zad1-cache \
     --import-cache type=registry,ref=docker.io/v17v3/zad1-cache \

@@ -2,7 +2,7 @@
 
 *4. Zbudować obrazy kontenera z aplikacją opracowaną w punkcie nr 1, które będą pracował na architekturach: linux/arm/v7, linux/arm64/v8 oraz linux/amd64 wykorzystując sterownik docker container. Dockerfile powinien wykorzystywać rozszerzony frontend, zawierać deklaracje  wykorzystania cache (jak w p.3) i umożliwiać bezpośrednie wykorzystanie kodów aplikacji umieszczonych w swoim repozytorium publicznym na GitHub.*
 
-Aby zbudować obraz kontenera wykorzystując sterownik docker-container, należy utworzyć instancje buildx typu docker-container. W moim przypadku utworzyłem instancje buildx o dwóch węzłach. Pierwszy jest utworzony lokalnie, drugi na środowisku chmurowym w Azure. Builder o dwóch węzłach znacznie zmniejsza czas budowania obrazów wielu platformowych.
+Aby zbudować obraz kontenera wykorzystując sterownik docker-container, należy utworzyć instancje buildx typu docker-container. W moim przypadku utworzyłem instancje buildx o dwóch węzłach. Pierwszy jest utworzony lokalnie, drugi na środowisku chmurowym w Azure. Builder o dwóch węzłach znacznie zmniejsza czas budowania obrazów wieloplatformowych.
 
 1\) Tworzenie buildera z węzłem w środowisku chmurowym Azure.
 ```
