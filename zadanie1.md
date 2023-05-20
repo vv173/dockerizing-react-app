@@ -8,6 +8,10 @@ Budowanie odbywa się za pomocą silnika buildkit. Przed budowaniem należy uruc
 docker run -d --name buildkitd --restart always --privileged moby/buildkit:latest
 export BUILDKIT_HOST=docker-container://buildkitd
 ```
+Oprócz tego kontener wymaga agenta ssh, więc przed budowaniem należy upewnić się, że jest uruchomiony.
+```
+eval $(ssh-agent)
+```
 <br/><br/>
 Budowanie kontenera przy użyciu buildctl.
 ```
@@ -16,7 +20,6 @@ buildctl build \
     --local context=. \
     --local dockerfile=. \
     --output type=image,\"name=zad1registry.azurecr.io/zad1,docker.io/v17v3/zad1\",push=true \
-    --ssh default=$SSH_AUTH_SOCK \
     --export-cache type=registry,mode=max,ref=docker.io/v17v3/zad1-cache \
     --import-cache type=registry,ref=docker.io/v17v3/zad1-cache \
     --opt build-arg:USER_ID=7777 \
@@ -32,7 +35,6 @@ docker buildx build \
     --cache-from type=registry,ref=docker.io/v17v3/zad1-cache \
     --cache-to type=registry,ref=docker.io/v17v3/zad1-cache \
     --output=type=registry \
-    --ssh default=$SSH_AUTH_SOCK \
     --platform=linux/arm/v7,linux/arm64/v8,linux/amd64 \
     --build-arg USER_ID=7777 \
     --build-arg NAME='User Name' \
